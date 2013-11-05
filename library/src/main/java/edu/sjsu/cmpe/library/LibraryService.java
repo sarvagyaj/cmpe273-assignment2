@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.yammer.dropwizard.Service;
+import com.yammer.dropwizard.assets.AssetsBundle;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.views.ViewBundle;
@@ -27,6 +28,7 @@ public class LibraryService extends Service<LibraryServiceConfiguration> {
 	public void initialize(Bootstrap<LibraryServiceConfiguration> bootstrap) {
 		bootstrap.setName("library-service");
 		bootstrap.addBundle(new ViewBundle());
+		bootstrap.addBundle(new AssetsBundle());
 	}
 
 	@Override
