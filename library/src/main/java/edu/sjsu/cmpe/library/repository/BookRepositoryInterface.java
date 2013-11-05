@@ -12,36 +12,40 @@ import edu.sjsu.cmpe.library.domain.Book;
  * @see http://martinfowler.com/eaaCatalog/repository.html
  */
 public interface BookRepositoryInterface {
-    /**
-     * Save a new book in the repository
-     * 
-     * @param newBook
-     *            a book instance to be create in the repository
-     * @return a newly created book instance with auto-generated ISBN
-     */
-    Book saveBook(Book newBook);
+	/**
+	 * Save a new book in the repository
+	 * 
+	 * @param newBook
+	 *            a book instance to be create in the repository
+	 * @return a newly created book instance with auto-generated ISBN
+	 */
+	Book saveBook(Book newBook);
 
-    /**
-     * Retrieve an existing book by ISBN
-     * 
-     * @param isbn
-     *            a valid ISBN
-     * @return a book instance
-     */
-    Book getBookByISBN(Long isbn);
+	/**
+	 * Retrieve an existing book by ISBN
+	 * 
+	 * @param isbn
+	 *            a valid ISBN
+	 * @return a book instance
+	 */
+	Book getBookByISBN(Long isbn);
 
-    /**
-     * Retrieve all books
-     * 
-     * @return a list of books
-     */
-    List<Book> getAllBooks();
+	/**
+	 * Retrieve all books
+	 * 
+	 * @return a list of books
+	 */
+	List<Book> getAllBooks();
 
-    /**
-     * Delete an existing book
-     * 
-     * @param isbn
-     *            an ISBN of the book to be deleted
-     */
-    void delete(Long isbn);
+	/**
+	 * Delete an existing book
+	 * 
+	 * @param isbn
+	 *            an ISBN of the book to be deleted
+	 */
+	void delete(Long isbn);
+
+	// adds the book if the book is not present else updates the status of the
+	// book from lost to available
+	public void updateBook(Book book);
 }
