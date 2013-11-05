@@ -1,34 +1,32 @@
 package edu.sjsu.cmpe.procurement;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.sun.jersey.api.client.Client;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 
+import de.spinscale.dropwizard.jobs.JobsBundle;
 import edu.sjsu.cmpe.procurement.config.ProcurementServiceConfiguration;
+import edu.sjsu.cmpe.procurement.util.ProcurementConfig;
 
-public class ProcurementService extends Service<ProcurementServiceConfiguration> {
+public class ProcurementService extends
+		Service<ProcurementServiceConfiguration> {
+	public static void main(String[] args) throws Exception {
+		new ProcurementService().run(args);
+	}
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+	@Override
+	public void initialize(Bootstrap<ProcurementServiceConfiguration> bootstrap) {
+		bootstrap.setName("procurement-service");
+		bootstrap.addBundle(new JobsBundle("edu.sjsu.cmpe.procurement.broker"));
+	}
 
-    public static void main(String[] args) throws Exception {
-	new ProcurementService().run(args);
-    }
-
-    @Override
-    public void initialize(Bootstrap<ProcurementServiceConfiguration> bootstrap) {
-	bootstrap.setName("procurement-service");
-    }
-
-    @Override
-    public void run(ProcurementServiceConfiguration configuration,
-	    Environment environment) throws Exception {
-	String queueName = configuration.getStompQueueName();
-	String topicName = configuration.getStompTopicName();
-	log.debug("Queue name is {}. Topic is {}", queueName, topicName);
-	// TODO: Apollo STOMP Broker URL and login
-
-    }
+	@Override
+	public void run(ProcurementServiceConfiguration configuration,
+			Environment environment) throws Exception {
+		Client client = Client.create();
+		configuration.setClient(client);
+		ProcurementConfig.setProcurementConfig(configuration);
+		System.out.println("Connection with apollo broker has been set up.");
+	}
 }
