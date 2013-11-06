@@ -16,14 +16,13 @@
                     <!-- calls getBooks() from HomeResource -->
                     <table class="table table-hover">
                     {{#books}}
-                        <tr>
-                            <td>{{isbn}}</td>
-							<td><img class="img-thumbnail" height="92" width="72" src="{{coverimage}}"></td>
-							<td>{{title}}</td>
-							<td>{{category}}</td>
-							<td>{{status}}</td>
-							<td><button id={{isbn}} type="button" class="btn btn-primary">Report Lost</button></td>
-						
+                        <tr data-id={{isbn}}>
+                            <td class="isbn">{{isbn}}</td>
+			    <td class="img"><img class="img-thumbnail" height="92" width="72" src="{{coverimage}}"></td>
+			    <td class="title">{{title}}</td>
+			    <td class="category">{{category}}</td>
+			    <td class="status">{{status}}</td>
+			    <td class="cmd"><button type="button" class="btn btn-primary">Report Lost</button></td>			
                         </tr>
                     {{/books}}
                     </table>
