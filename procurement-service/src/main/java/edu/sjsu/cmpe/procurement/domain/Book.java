@@ -1,10 +1,12 @@
 package edu.sjsu.cmpe.procurement.domain;
 
+import java.net.URL;
+
 public class Book {
 	private long isbn;
 	private String title;
 	private String category;
-	private String coverimage;
+	private URL coverimage;
 
 	/**
 	 * @return the isbn
@@ -44,11 +46,11 @@ public class Book {
 		this.category = category;
 	}
 
-	public String getCoverimage() {
+	public URL getCoverimage() {
 		return coverimage;
 	}
 
-	public void setCoverimage(String coverimage) {
+	public void setCoverimage(URL coverimage) {
 		this.coverimage = coverimage;
 	}
 

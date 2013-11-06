@@ -6,6 +6,9 @@
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" media="screen">
             <!-- Optional theme -->
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="../assets/js/connect.js"></script>
+            <script src="../assets/js/stomp.js"></script>
         </head>
         <body>
             <div class="container">
@@ -19,7 +22,8 @@
 							<td>{{title}}</td>
 							<td>{{category}}</td>
 							<td>{{status}}</td>
-							<td><button id="{{isbn}}" type="button" class="btn btn-primary">Report Lost</button></td>
+							<td><button id={{isbn}} type="button" class="btn btn-primary">Report Lost</button></td>
+						
                         </tr>
                     {{/books}}
                     </table>
@@ -27,7 +31,7 @@
             </div> <!-- end of container -->
            
             <!-- script tags -->
-            <!-- jQuery (necessary for Boo	tstrap's JavaScript plugins) -->
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="//code.jquery.com/jquery.js"></script>
             <!-- Latest compiled and minified JavaScript -->
             <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

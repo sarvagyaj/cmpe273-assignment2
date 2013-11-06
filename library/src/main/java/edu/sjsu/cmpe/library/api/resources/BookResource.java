@@ -1,5 +1,10 @@
 package edu.sjsu.cmpe.library.api.resources;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -87,22 +92,43 @@ public class BookResource {
 	@Path("/{isbn}")
 	@Timed(name = "update-book-status")
 	public Response updateBookStatus(@PathParam("isbn") LongParam isbn,
-			@DefaultValue("available") @QueryParam("status") Status status) {
-		Book book = bookRepository.getBookByISBN(isbn.get());
-		book.setStatus(status);
+			@DefaultValue("available") @QueryParam("status") Status status,
+			@QueryParam("category") String category,
+			@QueryParam("title") String title,
+			@QueryParam("coverimage") String coverimage) {
+		Book book = new Book();
+		if (bookRepository.getBookByISBN(isbn.get()) != null) {
+			book = bookRepository.getBookByISBN(isbn.get());
+			book.setStatus(status);
+		} else { // if isbn does not exist, then add the book in book repo
+			System.out.println("Adding book");
+			book.setIsbn(isbn.get());
+			book.setCategory(category);
+			book.setTitle(title);
+			book.setStatus(Status.available);
+			String decodedUrl=null;
+			try {
+				decodedUrl = URLDecoder.decode(coverimage, "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				book.setCoverimage(new URL(decodedUrl));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			bookRepository.updateBook(book);
+		}
 
-		BookDto bookResponse = new BookDto(book);
-		String location = "/books/" + book.getIsbn();
-		bookResponse.addLink(new LinkDto("view-book", location, "GET"));
-
-		// System.out.println(status.getValue());
 		// Sending message to STOMP queue if status is lost
 		if (status.getValue().equalsIgnoreCase("lost")) {
 			BrokerConnection.createConnection();
 			Producer producer = new Producer();
 			producer.sendMessageToQueue(book.getIsbn());
 		}
-
+		BookDto bookResponse = new BookDto(book);
+		String location = "/books/" + book.getIsbn();
+		bookResponse.addLink(new LinkDto("view-book", location, "GET"));
 		return Response.status(200).entity(bookResponse).build();
 	}
 

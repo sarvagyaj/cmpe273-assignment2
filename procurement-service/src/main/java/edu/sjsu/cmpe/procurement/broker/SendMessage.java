@@ -1,5 +1,10 @@
 package edu.sjsu.cmpe.procurement.broker;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.TextMessage;
@@ -25,13 +30,27 @@ public class SendMessage {
 						"title"));
 				shippedBook.setCategory(jsonArray.getJSONObject(i).getString(
 						"category"));
-				shippedBook.setCoverimage(jsonArray.getJSONObject(i).getString(
-						"coverimage"));
+				URL url;
+				try {
+					url = new URL(jsonArray.getJSONObject(i).getString(
+							"coverimage"));
+					shippedBook.setCoverimage(url);
+				} catch (MalformedURLException e2) {
+					e2.printStackTrace();
+				}
+				
+				String encodedUrl=null;
+				try {
+					encodedUrl = URLEncoder.encode(jsonArray.getJSONObject(i).getString(
+							"coverimage"), "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					e1.printStackTrace();
+				}
 
-				String mess = shippedBook.getIsbn() + ":"
-						+ shippedBook.getTitle() + ":"
-						+ shippedBook.getCategory() + ":"
-						+ shippedBook.getCoverimage();
+				String mess = shippedBook.getIsbn() + ":\""
+						+ shippedBook.getTitle() + "\":\""
+						+ shippedBook.getCategory() + "\":\""
+						+ encodedUrl+ "\"";
 				System.out.println(mess);
 				try {
 					MessageProducer messageProducer = Producer
@@ -43,7 +62,7 @@ public class SendMessage {
 					msg.setStringProperty("title", shippedBook.getTitle());
 					msg.setStringProperty("category", shippedBook.getCategory());
 					msg.setStringProperty("coverimage",
-							shippedBook.getCoverimage());
+							encodedUrl);
 					messageProducer.send(msg);
 				} catch (JMSException e) {
 					e.printStackTrace();

@@ -1,7 +1,9 @@
 package edu.sjsu.cmpe.library.subscriber;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -36,9 +38,14 @@ public class SubscribeMessages {
 					newBook.setIsbn(msg.getLongProperty("isbn"));
 					newBook.setTitle(msg.getStringProperty("title"));
 					newBook.setCategory(msg.getStringProperty("category"));
+					String decodedUrl=null;
 					try {
-						newBook.setCoverimage(new URL(msg
-								.getStringProperty("coverimage")));
+						decodedUrl = URLDecoder.decode(msg.getStringProperty("coverimage"), "UTF-8");
+					} catch (UnsupportedEncodingException e1) {
+						e1.printStackTrace();
+					}
+					try {
+						newBook.setCoverimage(new URL(decodedUrl));
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
