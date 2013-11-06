@@ -7,6 +7,7 @@
             <!-- Optional theme -->
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="../assets/js/template.js"></script>
             <script src="../assets/js/connect.js"></script>
             <script src="../assets/js/stomp.js"></script>
         </head>
@@ -14,9 +15,9 @@
             <div class="container">
                 <div class="jumbotron">
                     <!-- calls getBooks() from HomeResource -->
-                    <table class="table table-hover">
+                    <table id="tbody" class="table table-hover">
                     {{#books}}
-                        <tr data-id={{isbn}}>
+			<tr id={{isbn}}  data-id={{isbn}}>
                             <td class="isbn">{{isbn}}</td>
 			    <td class="img"><img class="img-thumbnail" height="92" width="72" src="{{coverimage}}"></td>
 			    <td class="title">{{title}}</td>
@@ -28,7 +29,8 @@
                     </table>
                 </div>
             </div> <!-- end of container -->
-           
+          
+ 
             <!-- script tags -->
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="//code.jquery.com/jquery.js"></script>
