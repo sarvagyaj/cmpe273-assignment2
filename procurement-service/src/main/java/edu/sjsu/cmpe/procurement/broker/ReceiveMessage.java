@@ -14,7 +14,7 @@ import de.spinscale.dropwizard.jobs.annotations.Every;
 import edu.sjsu.cmpe.procurement.publisher.PublisherJobs;
 import edu.sjsu.cmpe.procurement.util.ProcurementConfig;
 
-@Every("1min")
+@Every("5min")
 public class ReceiveMessage extends Job {
 
 	@Override

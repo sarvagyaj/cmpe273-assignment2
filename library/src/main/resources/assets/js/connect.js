@@ -13,7 +13,7 @@ function renderBook(data){
 	else{
 		$('#tbody').append(vw);
 	}
-
+	
 	updateStatus();
 }
 
@@ -21,7 +21,8 @@ $(document).ready(function() {
 	var url = "ws://54.215.210.214:61623";
 	var login = "admin";
 	var password = "password";
-	var destination = "/topic/69377.book.computer";
+	var destination=$("#topic").val();
+		
 	var client = Stomp.client(url);
 	client.debug = function(str) {
 		$("#debug").append(str + "\n");
@@ -30,7 +31,7 @@ $(document).ready(function() {
 		console.debug("inside connect");
 		client.subscribe(destination, function(message) {
 			renderBook(message.headers);
-
+			
 		});
 
 	});

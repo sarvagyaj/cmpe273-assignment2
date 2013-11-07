@@ -18,8 +18,6 @@ import edu.sjsu.cmpe.library.util.LibraryConfig;
 public class SubscribeMessages {
 
 	public void ListenMessages(BookRepositoryInterface bookRepository) {
-		// List<Book> receivedBooks = new ArrayList<Book>();
-
 		System.out
 				.println("-----------------------------------------------Waiting for messages from "
 						+ LibraryConfig.getLibraryConfig().getStompTopicName()
